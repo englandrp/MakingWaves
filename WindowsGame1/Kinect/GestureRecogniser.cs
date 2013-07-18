@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------
-// really simplified gesture recognition based on hand/limb locations and movement between frames - to act as insurance....
+// really simplified gesture recognition based on hand/limb locations and movement between frames
 //------------------------------------------------------------------------------
 
 using System.Collections.Generic;
@@ -24,8 +24,6 @@ namespace WindowsGame1
         public GestureRecogniser()
         {
             probabilityList  = new List<int>(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
-            //_leftHand = new Hand();
-            //_rightHand = new Hand();
         }
 
         public void update( JointCollection skelJoints)
@@ -46,10 +44,9 @@ namespace WindowsGame1
             for(int i = 0; i < probabilityList.Count; i++)
             {
                 if (probabilityList[i] > 0) probabilityList[i]--;
-                //if(i == 5) Debug.Write(probabilityList[i] + " ");
                 
             }
-            //Debug.WriteLine(" ");
+
             // stores a countdown for each detected gesture
             
             /*
@@ -85,26 +82,21 @@ namespace WindowsGame1
             bool leftHandDown = (leftHand.Y < spine.Y);
             bool rightHandDown = (rightHand.Y < spine.Y);
 
-           // Debug.WriteLine(head.Z);
-            //DepthImagePoint pt = CoordinateMapper.MapSkeletonPointToDepthPoint(skelJoints, DepthImageFormat.Resolution320x240Fps30);
-
             // 0 Come
             bool comePosition = (Vector3.Distance(rightHand, rightShoulder) < 0.3);
             if (comePosition)
             {
                 if (rightHand.Z - _lastJoints[JointType.HandRight].Position.Z < 0.3 && leftHandDown)
                 {
-              //      Debug.WriteLine(" ??? Come ??? ");
                     probabilityList[0] = 100;
                 }
                 if (leftHand.Z - _lastJoints[JointType.HandLeft].Position.Z < 0.3 && rightHandDown)
                 {
-                 //   Debug.WriteLine(" ??? Come ??? ");
                     probabilityList[0] = 100;
                 }
                 
             }
-            //skelJoints[JointType.HandLeft].Position.
+
             // 1 Go
             //right hand (pointing) from left to right
             bool goPosition = (Vector3.Distance(leftHand, leftElbow) < 0.18
@@ -113,12 +105,8 @@ namespace WindowsGame1
             {
                 float rDist = rightHand.X - _rightHand.X;
                 float lDist = leftHand.X - _leftHand.X;
-           //     Trace.WriteLine("right dist " + rDist);
-               // Trace.WriteLine("left dist " + lDist);
-                //Debug.WriteLine(leftHand.X - lDist);
                 if (lDist < -0.03
                     || rDist > 0.03)
-                  //  Debug.WriteLine(" GO GO GO GO GO GO ");
                 probabilityList[2] = 100;
             }
 
@@ -155,7 +143,6 @@ namespace WindowsGame1
             {
                 probabilityList[2] = 0;
                 //check for drink (head tipped back)
-                //Debug.WriteLine(head.Z - neck.Z);
                 if (oneHandDown)
                 {
                     float hZ = head.Z - neck.Z;
@@ -171,9 +158,6 @@ namespace WindowsGame1
                     }
                 }
             }
-
-            //feck
-            //girrrrls
 
             // 6 STOP
 
@@ -204,7 +188,6 @@ namespace WindowsGame1
                 //Debug.WriteLine(direction.X);
                 if (direction.X < -0.4) probabilityList[9] = 100;
             }
-
 
             //remember the last position of all joints
             _lastJoints = skelJoints;
