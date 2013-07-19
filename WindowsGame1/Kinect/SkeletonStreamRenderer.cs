@@ -36,6 +36,7 @@ namespace WindowsGame1
         /// The last frames skeleton data.
         /// </summary>
         private static Skeleton[] skeletonData;
+        
 
         /// <summary>
         /// This flag ensures only request a frame once per update call
